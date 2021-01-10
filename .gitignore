@@ -1,0 +1,9 @@
+*.csv
+*.xlsx
+*.PNG
+/dataset/csv/*
+/dataset/Etterspurte trender/*
+/dataset/MV137 Tosshullet/*
+/preproccesing/dataset/*
+/pickle/*
+*.pickle
