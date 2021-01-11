@@ -51,6 +51,7 @@ def data_cleaner():
         df = df.drop_duplicates()
         df.drop(columns=column_names, inplace=True)
         # print("df 	:	", df)
+        print("path : ", path)
         df.to_csv(f'{path}\\{l_dir}.csv')
 
 

@@ -61,8 +61,9 @@ def data_standard():
 
         }
         # os.path.splitext("/path/to/some/file.txt")[0]
-        f_t_write = open(f'.(\\dataset\\pickle\\data_{file_list})[0].pickle', "wb")
 
+        # f_t_write = open(f'.({cur_dir}\\dataset\\pickle\\data_{file_list})[0].pickle', "wb")
+        f_t_write = open(f'{cur_dir}\\dataset\\pickle\\data_{file_list}.pickle', "wb")
         pickle.dump(result_dict, f_t_write)
         f_t_write.close()
 
