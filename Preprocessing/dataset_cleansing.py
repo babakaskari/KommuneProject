@@ -38,20 +38,22 @@ def data_cleaner():
             df = pd.concat([df, df1], axis=0, ignore_index=False)
 
         df['Tid'] = pd.to_datetime(df['Tid'], dayfirst=True)
-        df["year"] = df['Tid'].dt.year
-        df["month"] = df['Tid'].dt.month
-        df["day"] = df['Tid'].dt.day
-        df["hour"] = df['Tid'].dt.hour
-        df["minute"] = df['Tid'].dt.minute
-        df['week_of_year'] = df['Tid'].dt.week
-        df['day_of_week'] = df['Tid'].dt.dayofweek
-        df['flow'] = df['Trender-Målt mengde, MV137']
+        df["Year"] = df['Tid'].dt.year
+        df["Month"] = df['Tid'].dt.month
+        df["Day"] = df['Tid'].dt.day
+        df["Hour"] = df['Tid'].dt.hour
+        df["Minute"] = df['Tid'].dt.minute
+        df['Week_Of_Year'] = df['Tid'].dt.week
+        df['Day_Of_Week'] = df['Tid'].dt.dayofweek
+        df['Is_Weekend'] = df['day_of_week'].apply(lambda x: "1" if x == 6 else ("1" if x == 7 else "0"))
+        df['Flow'] = df['Trender-Målt mengde, MV137']
         # print("df features	:	", df.columns)
+        df.drop(['Year'], axis=1, inplace=True)
         df = df.dropna()
         df = df.drop_duplicates()
         df.drop(columns=column_names, inplace=True)
         # print("df 	:	", df)
-        print("path : ", path)
+        # print("path : ", path)
         df.to_csv(f'{path}\\{l_dir}.csv')
 
 

@@ -20,6 +20,7 @@ def data_standard():
         print('The files are not present. Creating a new one..')
     else:
         print(list_dir)
+        # print(list_dir[0])
 
     for file_list in list_dir:
         df = pd.read_csv(f'{path}\\{file_list}')
@@ -30,8 +31,8 @@ def data_standard():
         df.drop(['Unnamed: 0'], inplace=True, axis=1)
         # //////////// separating X and Y
 
-        x_dataset = df.drop(["flow"], axis=1)
-        y_dataset = df.loc[:, ["flow"]]
+        x_dataset = df.drop(["Flow"], axis=1)
+        y_dataset = df.loc[:, ["Flow"]]
 
         # print(x_dataset)
         # ////////////////////////////////////////
@@ -60,10 +61,10 @@ def data_standard():
             "df": df,
 
         }
-        # os.path.splitext("/path/to/some/file.txt")[0]
 
-        # f_t_write = open(f'.({cur_dir}\\dataset\\pickle\\data_{file_list})[0].pickle', "wb")
-        f_t_write = open(f'{cur_dir}\\dataset\\pickle\\data_{file_list}.pickle', "wb")
+        f_t_write = open(f'{cur_dir}\\dataset\\pickle\\data_{os.path.splitext(file_list)[0]}.pickle', "wb")
         pickle.dump(result_dict, f_t_write)
         f_t_write.close()
+
+
 
