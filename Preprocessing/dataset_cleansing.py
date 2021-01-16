@@ -47,6 +47,7 @@ def data_cleaner():
         df['day_of_week'] = df['Tid'].dt.dayofweek
         df['flow'] = df['Trender-Målt mengde, MV137']
         # print("df features	:	", df.columns)
+        df.drop(['year'], axis=1, inplace=True)
         df = df.dropna()
         df = df.drop_duplicates()
         df.drop(columns=column_names, inplace=True)
