@@ -45,6 +45,7 @@ def data_cleaner():
         df["minute"] = df['Tid'].dt.minute
         df['week_of_year'] = df['Tid'].dt.week
         df['day_of_week'] = df['Tid'].dt.dayofweek
+        df['Is_weekend'] = df['day_of_week'].apply(lambda x: "1" if x == 6 else ("1" if x == 7 else "0"))
         df['flow'] = df['Trender-Målt mengde, MV137']
         # print("df features	:	", df.columns)
         df.drop(['year'], axis=1, inplace=True)
