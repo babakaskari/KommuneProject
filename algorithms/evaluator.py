@@ -17,25 +17,24 @@ warnings.filterwarnings('ignore')
 
 def evaluate_preds(model, x_train, y_train, x_true, y_true, x_cv, y_cv, x_predict):
     y_pred = model.predict(x_true)    
-    pred = model.predict(x_predict) 
+    pred = model.predict(x_predict)
+    mae = metrics.mean_absolute_error(y_true, y_pred)
+    mse = metrics.mean_squared_error(y_true, y_pred)
+    evr = explained_variance_score(y_true, y_pred)
+    r2s = r2_score(y_true, y_pred)
+    merror = max_error(y_true, y_pred)
     # print("y_pred : ", y_pred)
     # print("pred : ", pred)
+    """
     print("pred : ", pred[0])
     print("Name of the kernel : ", model)
     print('Model Variance score: {}'.format(model.score(x_true, y_true)))
-    print('Mean Absolute Error:', metrics.mean_absolute_error(y_true, y_pred))
-    print('Mean Squared Error:', metrics.mean_squared_error(y_true, y_pred))
+    print('Mean Absolute Error:', mae)
+    print('Mean Squared Error:', mse)
     print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_true, y_pred)))
-    print("explained variance regression score : ", explained_variance_score(y_true, y_pred))
-    print("Max error : ", max_error(y_true, y_pred))
-    print("R² score, the coefficient of determination  : ", r2_score(y_true, y_pred))
-    """
-    metric_dict = {
-                   "Mean Absolute Error": round(metrics.mean_absolute_error(y_true, y_pred), 3),
-                   "Root Mean Squared Error": round(np.sqrt(metrics.mean_squared_error(y_true, y_pred)), 3),                   
-                   "R-squered": round(r2_score(y_true, y_pred), 3),
-                    "Explained variance score": round(explained_variance_score(y_true, y_pred), 3)}
-    
+    print("explained variance regression score : ", evr)
+    print("Max error : ", merror)
+    print("R² score, the coefficient of determination  : ", r2s)
     """
     
     # ==================
@@ -50,9 +49,13 @@ def evaluate_preds(model, x_train, y_train, x_true, y_true, x_cv, y_cv, x_predic
    """
  
     eval_dict = {
-        "mean_absolute_error": metrics.mean_absolute_error(y_true, y_pred),               
+        "explained_variance_regression_score": evr,
+        "mean_squared_error": mse,
+        "mean_absolute_error": mae,
+        "r2_score": r2s,
+        "max_error": merror,
         "predicted_value": pred,
-        "r2_score": r2_score(y_true, y_pred),
+
     }
 
     return eval_dict
