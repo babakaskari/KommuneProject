@@ -24,7 +24,6 @@ loaded_object = pickle.load(file_to_read)
 file_to_read.close()
 print(loaded_object)
 df = loaded_object
-print("x_train : ", df['x_train'])
 dataset = df['df']
 
 dId = 57975963
