@@ -31,8 +31,8 @@ def data_standard():
         df.drop(['Unnamed: 0'], inplace=True, axis=1)
         # //////////// separating X and Y
 
-        x_dataset = df.drop(["flow"], axis=1)
-        y_dataset = df.loc[:, ["flow"]]
+        x_dataset = df.drop(["Flow"], axis=1)
+        y_dataset = df.loc[:, ["Flow"]]
 
         # print(x_dataset)
         # ////////////////////////////////////////
