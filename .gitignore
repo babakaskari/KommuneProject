@@ -2,8 +2,11 @@
 *.xlsx
 *.PNG
 /dataset/csv/*
+/result/*
 /dataset/Etterspurte trender/*
 /dataset/MV137 Tosshullet/*
 /preproccesing/dataset/*
 /pickle/*
 *.pickle
+/garbage
+/garbage/
