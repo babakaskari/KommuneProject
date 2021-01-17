@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 import evaluator
+import hyperparameter_tuner
 from tqdm import tqdm
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
@@ -34,6 +35,7 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
     # print(loaded_object)
     df = loaded_object
     dataset = df['df']
+
     # print("dataset : \n", dataset)
     dataset.drop(['Minute'], axis=1, inplace=True)
     gf = dataset.groupby(['Month', 'Day', 'Hour']). agg({'Week_Of_Year': 'first',
@@ -84,6 +86,9 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
             # print("indexHour : ", indexHour[0])
             x_predict = x_dataset[indexHour[0]]
             x_predict = x_predict.reshape(1, -1)
+            y_predict = y_dataset[indexHour[0]]
+            # print("Actual water consumption : ", y_predict[0])
+            # y_predict = y_predict.to_frame()
             start_index = indexHour[0] - (r + h)
             end_index = indexHour[0] - h
             x_dataset = x_dataset[start_index: end_index]
@@ -97,6 +102,10 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
                                                                 random_state=42)
 
             x_train, x_cv, y_train, y_cv = train_test_split(x_train, y_train, shuffle=False, test_size=0.2, random_state=42)
+            # ========================= hyperparameter tuning
+            # params = hyperparameter_tuner.rfr_hyperparameter_tuner(clf, x_train, y_train)
+            # clf.set_params(**params)
+            # ===============================
             clf.fit(x_train, np.ravel(y_train))
 
             evaluation_dict = evaluator.evaluate_preds(clf, x_train, y_train, x_test, y_test, x_cv, y_cv, x_predict)
@@ -117,10 +126,13 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
 
     path = os.path.dirname(cur_dir)
     # print(path)
+    pd.to_numeric(result["Mean Absolout Error"]).idxmin()
+    print("Actual water consumption : ", y_predict[0])
+    print("Best predicted water consumption : ", result.loc[7]["Predicted Water Consumtion"])
+    # print(result['Mean Absolout Error'].argmin())
 
     # print(list_dir[0])
-    # minvalueIndexLabel = result["Mean Absolout Error"].min()
-    # print(minvalueIndexLabel)
+
     kernel_name = f'{clf}'.split("(", 1)
     file_name = list_dir[0].split(".", 1)[0]
     result.to_csv(f'{path}\\result\\{kernel_name[0]}_result_{file_name}.csv', index=False)
