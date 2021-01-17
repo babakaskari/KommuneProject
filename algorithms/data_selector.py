@@ -119,6 +119,8 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
     # print(path)
 
     # print(list_dir[0])
+    # minvalueIndexLabel = result["Mean Absolout Error"].min()
+    # print(minvalueIndexLabel)
     kernel_name = f'{clf}'.split("(", 1)
     file_name = list_dir[0].split(".", 1)[0]
     result.to_csv(f'{path}\\result\\{kernel_name[0]}_result_{file_name}.csv', index=False)
