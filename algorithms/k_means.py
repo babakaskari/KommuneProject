@@ -42,7 +42,11 @@ print("kmeans.cluster_centers_   :   ", kmeans.cluster_centers_)
 y_kmeans = kmeans.fit_predict(x_train)
 
 centroids = kmeans.cluster_centers_
-plt.scatter(x_train, np.arange(0, len(x_train), 1), c= kmeans.labels_.astype(float), s=50, alpha=0.5)
+print("k-means labels : ", kmeans.labels_)
+# plt.scatter(np.arange(0, len(x_train), 1), x_train, c= kmeans.labels_.astype(float), s=50, alpha=0.5)
 # plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=50)
+plt.scatter(np.arange(0, len(x_train), 1), x_train, c=kmeans.labels_, s=50, alpha=0.5)
+plt.xlabel('X Lable')
+plt.ylabel('Flow')
 plt.show()
 
