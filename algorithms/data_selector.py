@@ -117,28 +117,28 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
             result.at[i, 'Hour Range'] = r
             result.at[i, 'Hour From'] = h
             result.at[i, 'Predicted Water Consumtion'] = evaluation_dict["predicted_value"][0]
-            result.at[i, 'Mean Absolout Error'] = evaluation_dict["mean_absolute_error"]
-            result.at[i, 'Mean Squared Error'] = evaluation_dict["mean_squared_error"]
-            result.at[i, "r2_score"] = evaluation_dict["r2_score"]
+            result.at[i, 'Mean Absolout Error'] =evaluation_dict["mean_absolute_error"]
+            result.at[i, 'Mean Squared Error'] = pd.to_numeric(evaluation_dict["mean_squared_error"])
+            result.at[i, "R2 score"] = evaluation_dict["r2_score"]
             result.at[i, 'Explained Variance Regression Score'] = evaluation_dict["explained_variance_regression_score"]
             result.at[i, 'Max Error'] = evaluation_dict["max_error"]
             i = i + 1
 
     path = os.path.dirname(cur_dir)
     # print(path)
+
+    pd.to_numeric(result["Predicted Water Consumtion"])
+    pd.to_numeric(result["Mean Squared Error"])
+    pd.to_numeric(result["r2_score"])
+    pd.to_numeric(result["Max Error"])
+    pd.to_numeric(result["Explained Variance Regression Score"])
     pd.to_numeric(result["Mean Absolout Error"]).idxmin()
     print("Actual water consumption : ", y_predict[0])
     print("Best predicted water consumption : ", result.loc[7]["Predicted Water Consumtion"])
     # print(result['Mean Absolout Error'].argmin())
-
     # print(list_dir[0])
-
     kernel_name = f'{clf}'.split("(", 1)
     file_name = list_dir[0].split(".", 1)[0]
     result.to_csv(f'{path}\\result\\{kernel_name[0]}_result_{file_name}.csv', index=False)
-
-
-
-
-
+    return f'{kernel_name[0]}_result_{file_name}.csv'
 
