@@ -51,7 +51,8 @@ def data_standard():
         x_train, x_cv, y_train, y_cv = train_test_split(x_train, y_train, shuffle=False, test_size=0.2, random_state=42)
 
         result_dict = {
-
+            "x_dataset": x_dataset,
+            "y_dataset": y_dataset,
             "x_train": x_train,
             "x_test": x_test,
             "x_cv": x_cv,
