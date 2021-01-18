@@ -22,7 +22,7 @@ x_train = dataset['y_dataset']
 
 # /////////////////////////////////////////////////
 
-print(x_train)
+# print(x_train)
 kmeans = KMeans(n_clusters=2,
                 init="k-means++",
                 random_state=None,
