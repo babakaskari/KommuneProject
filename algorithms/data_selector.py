@@ -12,7 +12,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 
-
 def data_selector(clf):
     with open("parameter.yaml") as stream:
         param = yaml.safe_load(stream)
