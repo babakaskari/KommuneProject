@@ -46,9 +46,11 @@ d_numpy = clustering_df.to_numpy()
 # print("d_numpy ", d_numpy)
 plt.scatter(d_numpy[y_pred == 0, 0], d_numpy[y_pred == 0, 1], s=25, c='green', label='Cluster 1')
 plt.scatter(d_numpy[y_pred == 1, 0], d_numpy[y_pred == 1, 1], s=25, c='blue', label='Cluster 2')
-plt.scatter(centroids[:, 0], centroids[:, 1], s=200, c='yellow', label='Two assumed centroid points')
+plt.scatter(centroids[:, 0], centroids[:, 1], s=200, c='red', label='Two assumed centroid points')
 plt.title('Clusters')
 plt.legend()
+plt.xlabel(r'Hours')
+plt.ylabel('Flow Of Water')
 plt.show()
 # Run the Kmeans algorithm and get the index of data points clusters
 elbo = []
