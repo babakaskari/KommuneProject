@@ -56,10 +56,10 @@ def data_cleaner():
                                                             'Is_Weekend': 'first',
                                                             'Flow': 'mean'}).reset_index()
         df = gf
-        print("df   :  ", df)
+
         df = df.dropna()
         df = df.drop_duplicates()
-        print("df 	:	", df)
+        # print("df 	:	", df)
         # print("path : ", path)
         df.to_csv(f'{path}\\{l_dir}.csv')
 
