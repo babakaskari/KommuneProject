@@ -7,6 +7,8 @@ import pickle
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from gaussrank import *
+import matplotlib.pyplot as plt
 
 
 def data_standard():
@@ -41,10 +43,23 @@ def data_standard():
         x_dataset = ohe.fit_transform(x_dataset)
         # ////////////////////////////////
         # //////////////// normalization
-        scaler = StandardScaler()
-        # print(y_dataset)
-        y_dataset = scaler.fit_transform(y_dataset)
+        # scaler = StandardScaler()
+        # # print(y_dataset)
+        # y_dataset = scaler.fit_transform(y_dataset)
         # /////////////////////////////////////////////////
+        ####################################################GAUSS RAN NORMALIZATION
+        x_cols = y_dataset.columns[:]
+        x = y_dataset[x_cols]
+        s = GaussRankScaler()
+        x_ = s.fit_transform(x)
+        assert x_.shape == x.shape
+        y_dataset[x_cols] = x_
+
+        y_dataset = pd.DataFrame(y_dataset)
+        pd.plotting.scatter_matrix(y_dataset)
+        y_dataset.plot(kind='density', subplots=True, sharex=False)
+        plt.show()
+        ####################################################
         x_train, x_test, y_train, y_test = train_test_split(x_dataset, y_dataset, shuffle=False, test_size=0.2,
                                                             random_state=42)
 
