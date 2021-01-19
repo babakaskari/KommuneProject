@@ -49,10 +49,17 @@ def data_cleaner():
         df['Flow'] = df['Trender-Målt mengde, MV137']
         # print("df features	:	", df.columns)
         df.drop(['Year'], axis=1, inplace=True)
+        # print("dataset : \n", dataset)
+        df.drop(['Minute'], axis=1, inplace=True)
+        gf = df.groupby(['Month', 'Day', 'Hour']).agg({'Week_Of_Year': 'first',
+                                                            'Day_Of_Week': 'first',
+                                                            'Is_Weekend': 'first',
+                                                            'Flow': 'mean'}).reset_index()
+        df = gf
+        print("df   :  ", df)
         df = df.dropna()
         df = df.drop_duplicates()
-        df.drop(columns=column_names, inplace=True)
-        # print("df 	:	", df)
+        print("df 	:	", df)
         # print("path : ", path)
         df.to_csv(f'{path}\\{l_dir}.csv')
 

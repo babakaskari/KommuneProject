@@ -4,6 +4,7 @@ import data_selector
 import visualizer
 
 
+<<<<<<< HEAD
 month = 6
 day = 21
 hour = 13
@@ -17,3 +18,13 @@ visualizer.range_from_mae(result_file)
 visualizer.range_from_r2s(result_file)
 visualizer.range_from_mae_predicted(result_file)
 visualizer.range_from_r2s_predicted(result_file)
+=======
+def random_forest_func():
+    clf = RandomForestRegressor(max_depth=3, random_state=42, n_jobs=-1)
+    result_file = data_selector.data_selector(clf)
+    # print(result_file)
+    visualizer.range_from_mae(result_file)
+    visualizer.range_from_r2s(result_file)
+    visualizer.range_from_mae_predicted(result_file)
+    visualizer.range_from_r2s_predicted(result_file)
+>>>>>>> 400af22d9dec369343031ab99a5616c3aeb22c41
