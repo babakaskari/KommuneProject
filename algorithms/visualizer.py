@@ -64,13 +64,13 @@ def range_from_r2s(result_file):
 def range_from_mae_predicted(result_file):
     df = file_reader(result_file)
     result = df.loc[df.groupby("Hour Range")["Mean Absolout Error"].idxmin()]
-    computation_range  = result ['Hour Range'].tolist()
-    predicted = result ['Predicted Water Consumtion'].tolist()
+    computation_range = result['Hour Range'].tolist()
+    predicted = result['Predicted Water Flow'].tolist()
     what_hour = result['Hour From'].tolist()
-    mean_absolout_error = result ['Mean Absolout Error'].tolist()
+    mean_absolout_error = result['Mean Absolout Error'].tolist()
     plt.plot(computation_range, what_hour, label='Hour From',  marker='o', linewidth=2)
     value_writer(plt, computation_range, what_hour)
-    plt.plot(computation_range, predicted, label='Predicted Water Consumtion',  marker='o', linewidth=2)
+    plt.plot(computation_range, predicted, label='Predicted Water Flow',  marker='o', linewidth=2)
     value_writer(plt, computation_range, predicted)
     plt.plot(computation_range, mean_absolout_error, label='Mean Absolout Error', marker='o', linewidth=2)
     value_writer(plt, computation_range, mean_absolout_error)
@@ -78,7 +78,7 @@ def range_from_mae_predicted(result_file):
     plt.legend()
     plt.xticks(computation_range)
     # plt.yticks(np.arange(0, len(what_hour) + 1, 1))
-    plt.title('MAE for Hour From and Hour Range and Predicted Consumption')
+    plt.title('MAE for Hour From and Hour Range and Predicted FLow')
     plt.show()
 
 
@@ -86,13 +86,13 @@ def range_from_r2s_predicted(result_file):
     df = file_reader(result_file)
     df = df.iloc[3:]
     result = df.loc[df.groupby("Hour Range")["R2 score"].idxmin()]
-    computation_range  = result ['Hour Range'].tolist()
-    predicted = result ['Predicted Water Consumtion'].tolist()
+    computation_range = result ['Hour Range'].tolist()
+    predicted = result['Predicted Water Flow'].tolist()
     what_hour = result['Hour From'].tolist()
     r2s = result ['R2 score'].tolist()
     plt.plot(computation_range, what_hour, label='Hour From',  marker='o', linewidth=2)
     value_writer(plt, computation_range, what_hour)
-    plt.plot(computation_range, predicted, label='Predicted Water Consumtion',  marker='o', linewidth=2)
+    plt.plot(computation_range, predicted, label='Predicted Water Flow',  marker='o', linewidth=2)
     value_writer(plt, computation_range, predicted)
     plt.plot(computation_range, r2s, label='R2 score', marker='o', linewidth=2)
     value_writer(plt, computation_range, r2s)
@@ -100,7 +100,7 @@ def range_from_r2s_predicted(result_file):
     plt.legend()
     plt.xticks(computation_range)
     # plt.yticks(np.arange(0, len(what_hour) + 1, 1))
-    plt.title('R2 score for Hour From and Hour Range and Predicted Consumption')
+    plt.title('R2 score for Hour From and Hour Range and Predicted Flow')
     plt.show()
 
 

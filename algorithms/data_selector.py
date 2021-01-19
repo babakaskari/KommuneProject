@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 import evaluator
+import yaml
 import hyperparameter_tuner
 from tqdm import tqdm
 from sklearn.preprocessing import OneHotEncoder
@@ -11,9 +12,20 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 
-def data_selector(clf, month, day, hour, hour_range, hour_from):
+
+def data_selector(clf):
+    with open("parameter.yaml") as stream:
+        param = yaml.safe_load(stream)
+
+    month = int(param["initialize"]["month"])
+    day = int(param["initialize"]["day"])
+    hour = int(param["initialize"]["hour"])
+    hour_range = np.arange(10, 15, 1)
+    # hour_range = [5, 10, 17, 35, 55, 78, 1002]
+    hour_from = np.arange(1, 5, 1)
+
     result = pd.DataFrame(
-        columns=["Month", "Day", "Hour", "Hour Range", "Hour From","Predicted Water Consumtion", "Mean Absolout Error",
+        columns=["Month", "Day", "Hour", "Hour Range", "Hour From", "Predicted Water Flow", "Mean Absolout Error",
                  "Mean Squared Error", "r2_score", "Explained Variance Regression Score", "Max Error"])
     cur_dir = os.getcwd()
     # print(cur_dir)
@@ -36,13 +48,7 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
     df = loaded_object
     dataset = df['df']
 
-    # print("dataset : \n", dataset)
-    dataset.drop(['Minute'], axis=1, inplace=True)
-    gf = dataset.groupby(['Month', 'Day', 'Hour']). agg({'Week_Of_Year': 'first',
-                                                         'Day_Of_Week': 'first',
-                                                         'Is_Weekend': 'first',
-                                                         'Flow': 'mean'}).reset_index()
-    dataset = gf
+
     # ========================= filtering the dataset accoring to  day
 
     indexHour = dataset[(dataset['Month'] == month) & (dataset["Hour"] == hour) & (dataset["Day"] == day)].index
@@ -116,8 +122,8 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
             result.at[i, 'Hour'] = hour
             result.at[i, 'Hour Range'] = r
             result.at[i, 'Hour From'] = h
-            result.at[i, 'Predicted Water Consumtion'] = evaluation_dict["predicted_value"][0]
-            result.at[i, 'Mean Absolout Error'] =evaluation_dict["mean_absolute_error"]
+            result.at[i, 'Predicted Water Flow'] = evaluation_dict["predicted_value"][0]
+            result.at[i, 'Mean Absolout Error'] = evaluation_dict["mean_absolute_error"]
             result.at[i, 'Mean Squared Error'] = pd.to_numeric(evaluation_dict["mean_squared_error"])
             result.at[i, "R2 score"] = evaluation_dict["r2_score"]
             result.at[i, 'Explained Variance Regression Score'] = evaluation_dict["explained_variance_regression_score"]
@@ -126,15 +132,18 @@ def data_selector(clf, month, day, hour, hour_range, hour_from):
 
     path = os.path.dirname(cur_dir)
     # print(path)
+    print("result: ", result)
 
-    pd.to_numeric(result["Predicted Water Consumtion"])
+    pd.to_numeric(result["Predicted Water Flow"])
     pd.to_numeric(result["Mean Squared Error"])
     pd.to_numeric(result["r2_score"])
     pd.to_numeric(result["Max Error"])
     pd.to_numeric(result["Explained Variance Regression Score"])
-    pd.to_numeric(result["Mean Absolout Error"]).idxmin()
-    print("Actual water consumption : ", y_predict[0])
-    print("Best predicted water consumption : ", result.loc[7]["Predicted Water Consumtion"])
+    pd.to_numeric(result["Mean Absolout Error"])
+    least_mae_row_id = pd.to_numeric(result["Mean Absolout Error"]).idxmin(skipna=True)
+    print(least_mae_row_id)
+    print("Actual water flow : ", y_predict[0])
+    print("Best predicted water flow : ", result.loc[least_mae_row_id]["Predicted Water Flow"])
     # print(result['Mean Absolout Error'].argmin())
     # print(list_dir[0])
     kernel_name = f'{clf}'.split("(", 1)
