@@ -6,6 +6,7 @@ import glob
 
 
 def data_cleaner():
+    i = 0
     os.chdir('../')
     cur_dir = os.getcwd()
     # print(cur_dir)
@@ -40,6 +41,7 @@ def data_cleaner():
         df['Tid'] = pd.to_datetime(df['Tid'], dayfirst=True)
         df["Year"] = df['Tid'].dt.year
         df["Month"] = df['Tid'].dt.month
+        print("df[Month]", df["Month"])
         df["Day"] = df['Tid'].dt.day
         df["Hour"] = df['Tid'].dt.hour
         df["Minute"] = df['Tid'].dt.minute
@@ -50,18 +52,32 @@ def data_cleaner():
         # print("df features	:	", df.columns)
         df.drop(['Year'], axis=1, inplace=True)
         # print("dataset : \n", dataset)
+        # print("df :", df)
         df.drop(['Minute'], axis=1, inplace=True)
         gf = df.groupby(['Month', 'Day', 'Hour']).agg({'Week_Of_Year': 'first',
                                                             'Day_Of_Week': 'first',
                                                             'Is_Weekend': 'first',
                                                             'Flow': 'mean'}).reset_index()
         df = gf
-
+        # print("df after group by:", df)
+        df = df[df['Flow'] != 0]
         df = df.dropna()
         df = df.drop_duplicates()
+        print("df column names : ", df.columns)
+        # column_names = df.columns
         # print("df 	:	", df)
         # print("path : ", path)
         df.to_csv(f'{path}\\{l_dir}.csv')
+        # file = open(f'{path}\\both_files.csv', 'a')
+        # file.write(' , Month, Day, Hour, Week_Of_Year, Day_Of_Week, Is_Weekend, Flow')
+        # file.close()
+        df["Shifted_Mean_Hour"] = df["Flow"].shift(periods=1)
+        df = df.dropna()
 
+        if i == 0:
+            df.to_csv(f'{path}\\both_files.csv', mode='a', header=True)
+        else:
+            df.to_csv(f'{path}\\both_files.csv', mode='a', header=False)
+        i = i + 1
 
 

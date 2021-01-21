@@ -1,6 +1,6 @@
 import yaml
 import random_forest_regression
-import numpy as np
+import k_means
 
 # load parameter yaml
 with open("parameter.yaml") as stream:
@@ -11,15 +11,14 @@ day = int(param["initialize"]["day"])
 hour = int(param["initialize"]["hour"])
 
 
-print("Press 1 for RandomForestRegressor\nPress 2 for SVMregressor\n")
+print("Press 0 for data preprocessing\nPress 1 for RandomForestRegressor\nPress 2 for k_means\n")
 print('Please choose your model:    ')
 selected_kernel = int(input())
-
 
 if selected_kernel == 1:
     random_forest_regression.random_forest_func()
 elif selected_kernel == 2:
-    print("Ooooooooooops")
+    k_means.kmeans_algorithm()
 else:
     print("Exit")
     exit()

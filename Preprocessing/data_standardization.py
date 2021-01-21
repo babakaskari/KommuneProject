@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 def data_standard():
     # os.chdir('../')
     cur_dir = os.getcwd()
-    # print(cur_dir)
+    print(cur_dir)
 
     path = ("{dir}\\dataset\\csv".format(dir=cur_dir))
     list_dir = os.listdir(path)
@@ -30,6 +30,7 @@ def data_standard():
         # ohe = OneHotEncoder(sparse=False)
         # x_df_filtered_ohe = ohe.fit_transform(x_df_filtered)
         # print(df.columns)
+        # print("df : ", df)
         df.drop(['Unnamed: 0'], inplace=True, axis=1)
         # //////////// separating X and Y
 
@@ -43,9 +44,9 @@ def data_standard():
         x_dataset = ohe.fit_transform(x_dataset)
         # ////////////////////////////////
         # //////////////// normalization
-        # scaler = StandardScaler()
+        scaler = StandardScaler()
         # # print(y_dataset)
-        # y_dataset = scaler.fit_transform(y_dataset)
+        y_dataset = scaler.fit_transform(y_dataset)
         # /////////////////////////////////////////////////
         ####################################################GAUSS RAN NORMALIZATION
         # x_cols = y_dataset.columns[:]
