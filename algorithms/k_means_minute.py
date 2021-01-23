@@ -33,7 +33,7 @@ clustering_df[f'{column2}'] = dataset["y_dataset"]
 # print("df :", clustering_df)
 # /////////////////////////////////////////////////
 
-kmeans = KMeans(n_clusters=6,
+kmeans = KMeans(n_clusters=10,
                 init="k-means++",
                 random_state=None,
                 max_iter=300,
@@ -59,6 +59,7 @@ plt.scatter(d_numpy[y_pred == 2, 0], d_numpy[y_pred == 2, 1], s=25, c='black', l
 plt.scatter(d_numpy[y_pred == 3, 0], d_numpy[y_pred == 3, 1], s=25, c='yellow', label='Cluster 4')
 plt.scatter(d_numpy[y_pred == 4, 0], d_numpy[y_pred == 4, 1], s=25, c='cyan', label='Cluster 5')
 plt.scatter(d_numpy[y_pred == 5, 0], d_numpy[y_pred == 5, 1], s=25, c='white', label='Cluster 6')
+
 plt.scatter(centroids[:, 0], centroids[:, 1], s=200, c='red', label='Two assumed centroid points')
 plt.title('Clusters')
 plt.legend()

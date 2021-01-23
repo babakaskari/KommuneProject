@@ -33,7 +33,7 @@ clustering_df[f'{column2}'] = dataset["y_dataset"]
 # print("df :", clustering_df)
 # /////////////////////////////////////////////////
 
-kmeans = KMeans(n_clusters=6,
+kmeans = KMeans(n_clusters=8,
                 init="k-means++",
                 random_state=None,
                 max_iter=300,
@@ -59,6 +59,11 @@ plt.scatter(d_numpy[y_pred == 2, 0], d_numpy[y_pred == 2, 1], s=25, c='black', l
 plt.scatter(d_numpy[y_pred == 3, 0], d_numpy[y_pred == 3, 1], s=25, c='yellow', label='Cluster 4')
 plt.scatter(d_numpy[y_pred == 4, 0], d_numpy[y_pred == 4, 1], s=25, c='cyan', label='Cluster 5')
 plt.scatter(d_numpy[y_pred == 5, 0], d_numpy[y_pred == 5, 1], s=25, c='white', label='Cluster 6')
+plt.scatter(d_numpy[y_pred == 6, 0], d_numpy[y_pred == 6, 1], s=25, c='orange', label='Cluster 7')
+# plt.scatter(d_numpy[y_pred == 7, 0], d_numpy[y_pred == 7, 1], s=25, c='cyan', label='Cluster 8')
+# plt.scatter(d_numpy[y_pred == 8, 0], d_numpy[y_pred == 8, 1], s=25, c='gray', label='Cluster 9')
+# plt.scatter(d_numpy[y_pred == 9, 0], d_numpy[y_pred == 9, 1], s=25, c='blue', label='Cluster 10')
+
 plt.scatter(centroids[:, 0], centroids[:, 1], s=200, c='red', label='Two assumed centroid points')
 plt.title('Clusters')
 plt.legend()
