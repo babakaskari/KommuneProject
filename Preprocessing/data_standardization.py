@@ -26,7 +26,10 @@ def data_standard():
 
     for file_list in list_dir:
         df = pd.read_csv(f'{path}\\{file_list}')
-
+        print("file name", file_list)
+        # dataTypeSeries = df.dtypes
+        # print('Data type of each column of Dataframe :')
+        # print(dataTypeSeries)
         # ohe = OneHotEncoder(sparse=False)
         # x_df_filtered_ohe = ohe.fit_transform(x_df_filtered)
         # print(df.columns)
@@ -47,6 +50,10 @@ def data_standard():
         scaler = StandardScaler()
         # # print(y_dataset)
         y_dataset = scaler.fit_transform(y_dataset)
+
+        # x_dataset = np.concatenate((x_dataset, z_dataset), axis=1)
+        # print("x_dataset with shifte mean: ", x_dataset)
+
         # /////////////////////////////////////////////////
         ####################################################GAUSS RAN NORMALIZATION
         # x_cols = y_dataset.columns[:]
@@ -65,17 +72,33 @@ def data_standard():
                                                             random_state=42)
 
         x_train, x_cv, y_train, y_cv = train_test_split(x_train, y_train, shuffle=False, test_size=0.2, random_state=42)
-
-        result_dict = {
-            "x_dataset": x_dataset,
-            "y_dataset": y_dataset,
-            "x_train": x_train,
-            "x_test": x_test,
-            "x_cv": x_cv,
-            "y_train": y_test,
-            "y_test": y_test,
-            "y_cv": y_cv,
-            "df": df,
+        print("df columns :", df.columns)
+        if "Shifted_Mean_Hour" in df:
+            z_dataset = df.loc[:, ["Shifted_Mean_Hour"]]
+            z_dataset = scaler.fit_transform(z_dataset)
+            result_dict = {
+                "x_dataset": x_dataset,
+                "y_dataset": y_dataset,
+                "z_dataset": z_dataset,
+                "x_train": x_train,
+                "x_test": x_test,
+                "x_cv": x_cv,
+                "y_train": y_test,
+                "y_test": y_test,
+                "y_cv": y_cv,
+                "df": df,
+            }
+        else:
+            result_dict = {
+                "x_dataset": x_dataset,
+                "y_dataset": y_dataset,
+                "x_train": x_train,
+                "x_test": x_test,
+                "x_cv": x_cv,
+                "y_train": y_test,
+                "y_test": y_test,
+                "y_cv": y_cv,
+                "df": df,
 
         }
 

@@ -40,12 +40,13 @@ def data_selector(clf):
     # print(list_dir)
 
     # file_to_read = open(f'{path}\\{list_dir[0]}', "rb")
-    file_to_read = open(f'{path_pickle}\\{list_dir[0]}', "rb")
+    file_to_read = open(f'{path_pickle}\\{list_dir[-1]}', "rb")
     loaded_object = pickle.load(file_to_read)
     file_to_read.close()
     # print(loaded_object)
     df = loaded_object
     dataset = df['df']
+    # print("dataset : ", dataset)
 
 
     # ========================= filtering the dataset accoring to  day
@@ -66,7 +67,7 @@ def data_selector(clf):
     # print("index hour   :   ", indexHour[0])
     # print("filterede dataset according to day : \n", dataset)
     # y_dataset = dataset.Flow
-    #
+
     i = 0
     for r in tqdm(hour_range):
         for h in tqdm(hour_from):
@@ -74,21 +75,25 @@ def data_selector(clf):
             # x_dataset = dataset.drop(["Flow"], axis=1)
             x_dataset = dataset.drop(["Flow"], axis=1)
             y_dataset = dataset.loc[:, ["Flow"]]
+            temp_shifted_mean_hour = dataset.loc[:, ["Shifted_Mean_Hour"]]
+            x_dataset = dataset.drop(["Shifted_Mean_Hour"], axis=1)
+            # print("x_dataset : ", x_dataset)
             # ////////////////one hot encoding
             ohe = OneHotEncoder(sparse=False)
             x_dataset = ohe.fit_transform(x_dataset)
             # ////////////////////////////////
-            # //////////////// normalization
+            # //////////////////////////////// normalization for Shifted_Mean_Hour
+            scaler = StandardScaler()
+            # print(y_dataset)
+            temp_shifted_mean_hour = scaler.fit_transform(temp_shifted_mean_hour)
+            x_dataset = np.concatenate((x_dataset, temp_shifted_mean_hour), axis=1)
+            # ///////////////////////////////////
+            # //////////////// normalization fro Flow
             scaler = StandardScaler()
             # print(y_dataset)
             y_dataset = scaler.fit_transform(y_dataset)
             # /////////////////////////////////////////////////
 
-            # print("y_dataset : ", y_dataset)
-            # print("x_dataset : ", x_dataset)
-            # print("y_dataset size: ", y_dataset.shape)
-            # print("x_dataset size: ", x_dataset.shape)
-            # print("indexHour : ", indexHour[0])
             x_predict = x_dataset[indexHour[0]]
             x_predict = x_predict.reshape(1, -1)
             y_predict = y_dataset[indexHour[0]]
@@ -131,7 +136,7 @@ def data_selector(clf):
 
     path = os.path.dirname(cur_dir)
     # print(path)
-    print("result: ", result)
+    # print("result: ", result)
 
     pd.to_numeric(result["Predicted Water Flow"])
     pd.to_numeric(result["Mean Squared Error"])
@@ -142,7 +147,9 @@ def data_selector(clf):
     least_mae_row_id = pd.to_numeric(result["Mean Absolout Error"]).idxmin(skipna=True)
     print(least_mae_row_id)
     print("Actual water flow : ", y_predict[0])
+    # predicted_value = result.loc[least_mae_row_id]["Predicted Water Flow"]
     print("Best predicted water flow : ", result.loc[least_mae_row_id]["Predicted Water Flow"])
+
     # print(result['Mean Absolout Error'].argmin())
     # print(list_dir[0])
     kernel_name = f'{clf}'.split("(", 1)

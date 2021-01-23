@@ -46,8 +46,7 @@ def evaluate_preds(model, x_train, y_train, x_true, y_true, x_cv, y_cv, x_predic
     cross_val_accuracy = np.mean(cross_validation_score) * 100
     print("cross validation accuracy : ", cross_val_accuracy)
     #return metric_dict
-   """
- 
+    """
     eval_dict = {
         "explained_variance_regression_score": evr,
         "mean_squared_error": mse,

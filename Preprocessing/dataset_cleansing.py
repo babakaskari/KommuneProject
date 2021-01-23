@@ -41,18 +41,22 @@ def data_cleaner():
         df['Tid'] = pd.to_datetime(df['Tid'], dayfirst=True)
         df["Year"] = df['Tid'].dt.year
         df["Month"] = df['Tid'].dt.month
-        print("df[Month]", df["Month"])
         df["Day"] = df['Tid'].dt.day
         df["Hour"] = df['Tid'].dt.hour
         df["Minute"] = df['Tid'].dt.minute
         df['Week_Of_Year'] = df['Tid'].dt.week
         df['Day_Of_Week'] = df['Tid'].dt.dayofweek
-        df['Is_Weekend'] = df['Day_Of_Week'].apply(lambda x: "1" if x == 6 else ("1" if x == 7 else "0"))
+        df['Is_Weekend'] = df['Day_Of_Week'].apply(lambda x: "1" if x == 6 or x == 7 else "0")
         df['Flow'] = df['Trender-Målt mengde, MV137']
         # print("df features	:	", df.columns)
         df.drop(['Year'], axis=1, inplace=True)
         # print("dataset : \n", dataset)
         # print("df :", df)
+        # print("df_minute : ", df_minute)
+        # df_minute = df_minute.drop(columns=["Tid", "ms", "Trender-Målt mengde, MV137"], inplace=True)
+        df_minute = df.drop(columns=['Tid', 'ms', 'Trender-Målt mengde, MV137'])
+        # print("df_minute : ", df_minute)
+
         df.drop(['Minute'], axis=1, inplace=True)
         gf = df.groupby(['Month', 'Day', 'Hour']).agg({'Week_Of_Year': 'first',
                                                             'Day_Of_Week': 'first',
@@ -61,6 +65,7 @@ def data_cleaner():
         df = gf
         # print("df after group by:", df)
         df = df[df['Flow'] != 0]
+        df_minute = df_minute[df_minute['Flow'] != 0]
         df = df.dropna()
         df = df.drop_duplicates()
         print("df column names : ", df.columns)
@@ -76,8 +81,10 @@ def data_cleaner():
 
         if i == 0:
             df.to_csv(f'{path}\\both_files.csv', mode='a', header=True)
+            df_minute.to_csv(f'{path}\\both_files_minute.csv', mode='a', header=True)
         else:
             df.to_csv(f'{path}\\both_files.csv', mode='a', header=False)
+            df_minute.to_csv(f'{path}\\both_files_minute.csv', mode='a', header=False)
         i = i + 1
 
 

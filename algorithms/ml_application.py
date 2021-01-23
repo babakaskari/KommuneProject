@@ -10,7 +10,7 @@ month = int(param["initialize"]["month"])
 day = int(param["initialize"]["day"])
 hour = int(param["initialize"]["hour"])
 
-print("Press 0 for data preprocessing\nPress 1 for RandomForestRegressor\nPress 2 for k_means\n")
+print("Press 1 for RandomForestRegressor\nPress 2 for k_means\n")
 print('Please choose your model:    ')
 selected_kernel = int(input())
 
