@@ -26,9 +26,14 @@ def data_cleaner():
 
     path = ("{dir}\\dataset\\csv".format(dir=cur_dir))
     list_dir = os.listdir(".\\dataset\\MV137 Tosshullet")
+
+    print("Directory lists : ", list_dir)
+    list_dir.sort()
+    print("Sorted Directory lists : ", list_dir)
     for l_dir in list_dir:
         list_sub_dir = os.listdir(f'.\\dataset\\MV137 Tosshullet\\{l_dir}')
         print("list_sub_dir     :   ", list_sub_dir[0])
+        print("Directory names : ", l_dir)
         df = pd.read_excel (f'.\\dataset\\MV137 Tosshullet\\{l_dir}\\{list_sub_dir[0]}')
         column_names = df.columns
         df = pd.DataFrame(columns=column_names)
@@ -49,7 +54,7 @@ def data_cleaner():
         df['Is_Weekend'] = df['Day_Of_Week'].apply(lambda x: "1" if x == 6 or x == 7 else "0")
         df['Flow'] = df['Trender-Målt mengde, MV137']
         # print("df features	:	", df.columns)
-        df.drop(['Year'], axis=1, inplace=True)
+        # df.drop(['Year'], axis=1, inplace=True)
         # print("dataset : \n", dataset)
         # print("df :", df)
         # print("df_minute : ", df_minute)
@@ -81,10 +86,13 @@ def data_cleaner():
 
         if i == 0:
             df.to_csv(f'{path}\\both_files.csv', mode='a', header=True)
-            df_minute.to_csv(f'{path}\\both_files_minute.csv', mode='a', header=True)
+            df_minute.to_csv(f'{path}\\all_files_minute.csv', mode='a', header=True)
         else:
             df.to_csv(f'{path}\\both_files.csv', mode='a', header=False)
-            df_minute.to_csv(f'{path}\\both_files_minute.csv', mode='a', header=False)
+            df_minute.to_csv(f'{path}\\all_files_minute.csv', mode='a', header=False)
         i = i + 1
 
-
+    df1 = pd.read_csv(f'{path}\\all_files_minute.csv')
+    df1['Leak'] = df1['Flow'].apply(lambda x: "1" if x > 26 else "0")
+    df1.drop(['Unnamed: 0'], inplace=True, axis=1)
+    df1.to_csv(f'{path}\\all_files_minute_leak.csv', mode='a', header=True)
