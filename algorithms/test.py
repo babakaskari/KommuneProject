@@ -46,13 +46,13 @@ file_to_read.close()
 # print(loaded_object)
 df = loaded_object
 dataset = df['df']
-print(dataset)
+# print(dataset)
 
 y_dataset = dataset.Leak
 x_dataset = dataset.drop(['Leak'], axis=1)
-print(x_dataset)
-print(y_dataset)
-x_train, x_test, y_train, y_test = train_test_split(x_dataset, y_dataset, shuffle=False, test_size=0.2,
+# print(x_dataset)
+# print(y_dataset)
+x_train, x_test, y_train, y_test = train_test_split(x_dataset, y_dataset, shuffle=False, test_size=0.3,
                                                                 random_state=42)
 
 x_train, x_cv, y_train, y_cv = train_test_split(x_train, y_train, shuffle=False, test_size=0.2, random_state=42)
@@ -61,10 +61,10 @@ clf = xgb.sklearn.XGBClassifier(nthread=-1, n_estimators=50, seed=42)
 clf.fit(x_train, y_train)
 xgb_pred = clf.predict(x_train)
 evaluator_classifier.evaluate_preds(clf, x_train, y_train, x_test, y_test, x_cv, y_cv)
-plt.figure(figsize=(20, 15))
-xgb.plot_importance(clf, ax=plt.gca())
-plt.show()
-plt.figure(figsize=(20, 15))
+# plt.figure(figsize=(20, 15))
+# xgb.plot_importance(clf, ax=plt.gca())
+# plt.show()
+# plt.figure(figsize=(20, 15))
 xgb.plot_tree(clf, ax=plt.gca())
 plt.show()
 print("Number of boosting trees: {}".format(clf.n_estimators))
