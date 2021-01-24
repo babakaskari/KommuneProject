@@ -3,7 +3,6 @@ import os
 import sys
 import numpy as np
 import pandas as pd
-import yaml
 from xgboost import plot_tree
 import xgboost as xgb
 import sklearn
@@ -13,19 +12,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set()
 
-with open("parameter.yaml") as stream:
-    param = yaml.safe_load(stream)
 
-month = int(param["initialize"]["month"])
-day = int(param["initialize"]["day"])
-hour = int(param["initialize"]["hour"])
-hour_range = np.arange(10, 15, 1)
-# hour_range = [5, 10, 17, 35, 55, 78, 1002]
-hour_from = np.arange(1, 5, 1)
-
-result = pd.DataFrame(
-    columns=["Month", "Day", "Hour", "Hour Range", "Hour From", "Predicted Water Flow", "Mean Absolout Error",
-             "Mean Squared Error", "r2_score", "Explained Variance Regression Score", "Max Error"])
 cur_dir = os.getcwd()
 # print(cur_dir)
 # print(os.path.basename(cur_dir)) )
