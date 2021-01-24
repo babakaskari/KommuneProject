@@ -53,15 +53,7 @@ def data_standard():
 
         # x_dataset = np.concatenate((x_dataset, z_dataset), axis=1)
         # print("x_dataset with shifte mean: ", x_dataset)
-        if "Leak" in df:
-            x_df = df.drop(["Flow", "Leak"], axis=1)
-            x_df = ohe.fit_transform(x_df)
-            y_df = df.loc[:, ["Flow"]]
-            y_leak = df.loc[:, ["Leak"]]
-            y_df = scaler.fit_transform(y_df)
-            df1 = pd.DataFrame(x_df)
-            df1["y_df"] = y_df
-            df1["Leak"] = y_leak
+
         # /////////////////////////////////////////////////
         ####################################################GAUSS RAN NORMALIZATION
         # x_cols = y_dataset.columns[:]
@@ -96,7 +88,15 @@ def data_standard():
                 "y_cv": y_cv,
                 "df": df,
             }
-        else:
+        elif "Leak" in df:
+            x_df = df.drop(["Flow", "Leak"], axis=1)
+            x_df = ohe.fit_transform(x_df)
+            y_df = df.loc[:, ["Flow"]]
+            y_leak = df.loc[:, ["Leak"]]
+            y_df = scaler.fit_transform(y_df)
+            df1 = pd.DataFrame(x_df)
+            df1["y_df"] = y_df
+            df1["Leak"] = y_leak
             result_dict = {
                 "x_dataset": x_dataset,
                 "y_dataset": y_dataset,
@@ -107,6 +107,19 @@ def data_standard():
                 "y_test": y_test,
                 "y_cv": y_cv,
                 "df": df1,
+
+            }
+
+        else:
+            result_dict = {
+                "x_dataset": x_dataset,
+                "y_dataset": y_dataset,
+                "x_train": x_train,
+                "x_test": x_test,
+                "x_cv": x_cv,
+                "y_train": y_test,
+                "y_test": y_test,
+                "y_cv": y_cv,
 
         }
 
