@@ -2,7 +2,6 @@ import pickle
 import numpy as np
 
 
-
 def k_means_model():
     with open('./k_means_model.pkl', 'rb') as file:
         pickle_model = pickle.load(file)

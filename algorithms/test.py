@@ -42,7 +42,7 @@ x_dataset = dataset.drop(['Leak'], axis=1)
 x_train, x_test, y_train, y_test = train_test_split(x_dataset, y_dataset, shuffle=False, test_size=0.3,
                                                                 random_state=42)
 
-x_train, x_cv, y_train, y_cv = train_test_split(x_train, y_train, shuffle=False, test_size=0.2, random_state=42)
+x_train, x_cv, y_train, y_cv = train_test_split(x_train, y_train, shuffle=False, test_size=0.3, random_state=42)
 
 clf = xgb.sklearn.XGBClassifier(nthread=-1, n_estimators=50, seed=42)
 clf.fit(x_train, y_train)

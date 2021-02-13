@@ -72,7 +72,7 @@ def data_standard():
                                                             random_state=42)
 
         x_train, x_cv, y_train, y_cv = train_test_split(x_train, y_train, shuffle=False, test_size=0.2, random_state=42)
-        print("df columns :", df.columns)
+        # print("df columns :", df.columns)
         if "Shifted_Mean_Hour" in df:
             z_dataset = df.loc[:, ["Shifted_Mean_Hour"]]
             z_dataset = scaler.fit_transform(z_dataset)

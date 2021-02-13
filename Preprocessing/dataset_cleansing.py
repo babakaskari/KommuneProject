@@ -73,7 +73,7 @@ def data_cleaner():
         df_minute = df_minute[df_minute['Flow'] != 0]
         df = df.dropna()
         df = df.drop_duplicates()
-        print("df column names : ", df.columns)
+        # print("df column names : ", df.columns)
         # column_names = df.columns
         # print("df 	:	", df)
         # print("path : ", path)
@@ -96,3 +96,23 @@ def data_cleaner():
     df1['Leak'] = df1['Flow'].apply(lambda x: "1" if x > 26 else "0")
     df1.drop(['Unnamed: 0'], inplace=True, axis=1)
     df1.to_csv(f'{path}\\all_files_minute_leak.csv', mode='a', header=True)
+
+    df1["min"] = df1['Flow']
+    df1["max"] = df1['Flow']
+    df1["mean"] = df1['Flow']
+    df1["median"] = df1['Flow']
+    df1["std"] = df1['Flow']
+
+    df2 = df1.drop(['Week_Of_Year', 'Day_Of_Week', 'Is_Weekend'], axis=1)
+
+    gf = df2.groupby(['Year', 'Month', 'Day', 'Hour']).agg({'Flow': 'sum',
+                                                            'min': 'min',
+                                                            'max': 'max',
+                                                            'mean': 'mean',
+                                                            'median': 'median',
+                                                            'std': 'std',
+                                                            'Leak': 'max'}).reset_index()
+    # print("gf  : ", gf)
+
+    gf.to_csv(f'{path}\\all_files_description.csv', mode='w', header=True)
+
