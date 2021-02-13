@@ -96,7 +96,8 @@ def data_cleaner():
     df1['Leak'] = df1['Flow'].apply(lambda x: "1" if x > 26 else "0")
     df1.drop(['Unnamed: 0'], inplace=True, axis=1)
     df1.to_csv(f'{path}\\all_files_minute_leak.csv', mode='a', header=True)
-
+    # print("df1 : ", df1)
+    df_3h = df1
     df1["min"] = df1['Flow']
     df1["max"] = df1['Flow']
     df1["mean"] = df1['Flow']
@@ -114,5 +115,24 @@ def data_cleaner():
                                                             'Leak': 'max'}).reset_index()
     # print("gf  : ", gf)
     gf = gf.dropna()
-    gf.to_csv(f'{path}\\all_files_description.csv', mode='w', header=True)
+    gf.to_csv(f'{path}\\all_files_description_1h.csv', mode='w', header=True)
 
+    temp = []
+    i = 1
+    d = 0
+    while i <= df_3h.shape[0]:
+        temp.append(d)
+        if i % 180 == 0:
+            d = d + 1
+        i = i + 1
+
+    df_3h['3_h'] = temp
+    gf_3h = df_3h.groupby(['Year', 'Month', 'Day', '3_h']).agg({'Flow': 'sum',
+                                                                'min': 'min',
+                                                                'max': 'max',
+                                                                'mean': 'mean',
+                                                                'median': 'median',
+                                                                'std': 'std',
+                                                                'Leak': 'max'}).reset_index()
+    gf_3h = gf_3h.dropna()
+    gf_3h.to_csv(f'{path}\\all_files_description_3h.csv', mode='w', header=True)
