@@ -113,6 +113,6 @@ def data_cleaner():
                                                             'std': 'std',
                                                             'Leak': 'max'}).reset_index()
     # print("gf  : ", gf)
-
+    gf = gf.dropna()
     gf.to_csv(f'{path}\\all_files_description.csv', mode='w', header=True)
 
