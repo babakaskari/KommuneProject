@@ -10,10 +10,10 @@ print("1 for 1 Hour \n3 for 3 Hour : ")
 x = input("please select the file : ")
 
 print("1 for no Date  \n2 for ohe Date : ")
-x_data = input("please select the file : ")
+x_data = input("please select the x_dataset : ")
 
 print("1 for Random Forest Tree  \n2 for XGboost : ")
-model = input("please select the file : ")
+model = input("please select the model : ")
 if x == '1':
     file_name = 'all_files_description_1h.csv'
 else:
