@@ -7,13 +7,13 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 print("1 for 1 Hour \n3 for 3 Hour : ")
-x = input("please select the file : ")
+x = input("Please select your preference : ")
 
-print("1 for no Date  \n2 for ohe Date : ")
-x_data = input("please select the x_dataset : ")
+print("\n1 for no Date  \n2 for ohe Date : ")
+x_data = input("Please select your preference dataset : ")
 
-print("1 for Random Forest Tree  \n2 for XGboost : ")
-model = input("please select the model : ")
+print("\n1 for Random Forest Tree  \n2 for XGboost : ")
+model = input("Please select the model : ")
 if x == '1':
     file_name = 'all_files_description_1h.csv'
 else:
