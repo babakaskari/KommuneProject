@@ -106,16 +106,16 @@ def data_cleaner():
 
     df2 = df1.drop(['Week_Of_Year', 'Day_Of_Week', 'Is_Weekend'], axis=1)
 
-    gf = df2.groupby(['Year', 'Month', 'Day', 'Hour']).agg({'Flow': 'sum',
+    gf_h1 = df2.groupby(['Year', 'Month', 'Day', 'Hour']).agg({'Flow': 'sum',
                                                             'min': 'min',
                                                             'max': 'max',
                                                             'mean': 'mean',
                                                             'median': 'median',
                                                             'std': 'std',
                                                             'Leak': 'max'}).reset_index()
-    # print("gf  : ", gf)
-    gf = gf.dropna()
-    gf.to_csv(f'{path}\\all_files_description_1h.csv', mode='w', header=True)
+
+    gf_h1 = gf_h1.dropna()
+    gf_h1.to_csv(f'{path}\\all_files_description_1h.csv', mode='w', header=True)
 
     temp = []
     i = 1
@@ -126,13 +126,14 @@ def data_cleaner():
             d = d + 1
         i = i + 1
 
-    df_3h['3_h'] = temp
-    gf_3h = df_3h.groupby(['Year', 'Month', 'Day', '3_h']).agg({'Flow': 'sum',
-                                                                'min': 'min',
-                                                                'max': 'max',
-                                                                'mean': 'mean',
-                                                                'median': 'median',
-                                                                'std': 'std',
-                                                                'Leak': 'max'}).reset_index()
+    df_3h = df1.drop(['Hour'], axis=1)
+    df_3h['Hour'] = temp
+    gf_3h = df_3h.groupby(['Year', 'Month', 'Day', 'Hour']).agg({'Flow': 'sum',
+                                                                 'min': 'min',
+                                                                 'max': 'max',
+                                                                 'mean': 'mean',
+                                                                 'median': 'median',
+                                                                 'std': 'std',
+                                                                 'Leak': 'max'}).reset_index()
     gf_3h = gf_3h.dropna()
     gf_3h.to_csv(f'{path}\\all_files_description_3h.csv', mode='w', header=True)
